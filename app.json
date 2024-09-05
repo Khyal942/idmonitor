@@ -1,0 +1,32 @@
+{
+    "name": "Telegram ID Bot",
+    "description": "A bot to find telegram user id easily",
+    "repository": "https://github.com/khyal11/Telegram-ID-Bot",
+    "logo": "https://telegra.ph/file/d357ab91889c3aca7c679.jpg",
+    "keywords": [
+        "telegram",
+        "telegram id",
+        "userid",
+        "id"
+    ],
+    "env": {
+      "BOT_TOKEN": {
+        "description": ""
+      },
+      "API_ID": {
+        "description": ""
+      },
+      "API_HASH": {
+        "description": ""
+      },
+        "UPDATE_CHANNEL": {
+            "description": "miyu942",
+            "value": "kk"
+        }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        }
+    ]
+}
