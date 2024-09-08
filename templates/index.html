@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Control</title>
+</head>
+<body>
+    <h1>Bot Control</h1>
+    <form action="{{ url_for('start') }}" method="post">
+        <button type="submit">Start Bot</button>
+    </form>
+    <form action="{{ url_for('stop') }}" method="post">
+        <button type="submit">Stop Bot</button>
+    </form>
+</body>
+</html>
