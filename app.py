@@ -1,39 +1,30 @@
-import asyncio
-from flask import Flask, request, jsonify
-from bot import Telegram, start_monitoring, stop_monitoring  # Import your bot and relevant functions
+from flask import Flask, render_template, redirect, url_for
+import subprocess
 
+# Flask app initialization
 app = Flask(__name__)
 
+# Global variable to keep track of the subprocess
+bot_process = None
+
 @app.route('/')
-def home():
-    return "Telegram Bot is running via Flask!"
+def index():
+    return render_template('index.html')
 
-@app.route('/start_monitoring', methods=['POST'])
-def start_bot_monitoring():
-    loop = asyncio.get_event_loop()
-    if not loop.is_running():
-        loop.create_task(Telegram.start())
-    return jsonify({"status": "Bot monitoring started!"})
+@app.route('/start', methods=['POST'])
+def start():
+    global bot_process
+    if bot_process is None or bot_process.poll() is not None:
+        bot_process = subprocess.Popen(["python", "bot.py"])
+    return redirect(url_for('index'))
 
-@app.route('/stop_monitoring', methods=['POST'])
-def stop_bot_monitoring():
-    stop_monitoring()
-    return jsonify({"status": "Bot monitoring stopped!"})
-
-@app.route('/status', methods=['GET'])
-def get_status():
-    status = "running" if Telegram.is_running else "stopped"
-    return jsonify({"status": status})
-
-async def run_flask():
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, app.run, '0.0.0.0', 5000)
-
-async def main():
-    await asyncio.gather(
-        Telegram.start(),  # This assumes Telegram.start() is an async function
-        run_flask()
-    )
+@app.route('/stop', methods=['POST'])
+def stop():
+    global bot_process
+    if bot_process is not None:
+        bot_process.terminate()
+        bot_process = None
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    app.run(debug=True)
