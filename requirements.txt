@@ -4,3 +4,4 @@ packaging>=16.8,<24
 pyaes==1.6.1
 pysocks==1.7.1
 streamlit==1.25.0
+Flask==2.2.5 
